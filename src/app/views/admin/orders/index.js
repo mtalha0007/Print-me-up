@@ -31,9 +31,10 @@ const OrderTable = () => {
   const tableHead = [
     { name: "order_no", label: "Order Id" },
     { name: "created_at", label: "Created At" },
+    { name: "customer", label: "Customer Name" },
     { name: "status", label: "Status" },
     { name: "payment_status", label: "Payment Status" },
-    { name: "customer", label: "Customer Name" },
+    { name: "address", label: "Address" },
     { name: "details", label: "Details" },
   ];
 
@@ -165,9 +166,6 @@ const OrderTable = () => {
                 <TableRow key={row._id}>
                   <TableCell>{row.order_no}</TableCell>
                   <TableCell>{row.created_at}</TableCell>
-                  <TableCell>{row.status}</TableCell>
-                  {/* <TableCell>{renderStatusIcon(row.status)}</TableCell> */}
-                  <TableCell>{row.payment_status}</TableCell>
                   <TableCell>
                     <Box
                       sx={{ display: "flex", gap: "4px", alignItems: "center" }}
@@ -176,9 +174,18 @@ const OrderTable = () => {
                       {`${row.customer.first_name} ${row.customer.last_name}`}
                     </Box>
                   </TableCell>
+                  <TableCell>{row.status}</TableCell>
+                  {/* <TableCell>{renderStatusIcon(row.status)}</TableCell> */}
+                  <TableCell>{row.payment_status}</TableCell>
+                 
+                  <TableCell>
+                   
+                      <Box >{`${row.address.address_1} - ${row.address.address_2}`}</Box>
+                    
+                  </TableCell>
                   <TableCell>
                     {row.details.map((detail, index) => (
-                      <div key={index}>{`${detail.size} - ${detail.qty} - ${detail.design}`}</div>
+                      <Box key={index}>{`${detail.size} - ${detail.qty} - ${detail.design}`}</Box>
                     ))}
                   </TableCell>
                 </TableRow>
@@ -186,7 +193,7 @@ const OrderTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <div
+      <Box
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -211,7 +218,7 @@ const OrderTable = () => {
           <Box sx={{ display: "flex", gap: "5px" }}>
             {[...Array(Math.ceil(orderOutput.length / rowsPerPage)).keys()].map(
               (pageNum) => (
-                <div
+                <Box
                   style={{
                     border: "1px solid grey",
                     p: 1,
@@ -229,7 +236,7 @@ const OrderTable = () => {
                   onClick={(e) => handleChangePage(e, pageNum)}
                 >
                   {pageNum + 1}
-                </div>
+                </Box>
               )
             )}
           </Box>
@@ -243,7 +250,7 @@ const OrderTable = () => {
             </IconButton>
           )}
         </Box>
-      </div>
+      </Box>
     </Paper>
   );
 };

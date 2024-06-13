@@ -10,6 +10,7 @@ import "@fontsource/noto-sans";
 import Home from "./app/views/web/Home";
 import Login from "./app/views/admin/Login/index";
 import useAuth from "./app/hooks/useAuth";
+import { ToasterContainer } from "./app/components/Toaster";
 
 
 const theme = createTheme({
@@ -57,6 +58,7 @@ function App() {
   return (
     <Fragment>
       <ThemeProvider theme={theme}>
+      <ToasterContainer/>
         <BrowserRouter>
           <Routes>
           <Route

@@ -64,8 +64,9 @@ function Header({ status, toggleStatus }) {
                   </IconButton>
                 </Box>
               </Box>
-              <Box onClick={() => userLogout()}> 
+              <Box > 
                 <Button
+                onClick={() => userLogout()}
                   sx={{
                     gap: "5px",
                     color: "#718096",

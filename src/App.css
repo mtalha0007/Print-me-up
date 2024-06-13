@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.banner-text {
+  font-weight: 600 !important;
+  background: linear-gradient(to right, #0EA5EA, #0CC7D7, #0BD1D1);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.25 !important;
+  /* This property ensures text color is transparent so the gradient shows through */
+  animation: effect 2s linear infinite;
+}
+
+@keyframes effect {
+  0% {
+    background-position: 0% 77%;
+  }
+
+  100% {
+    background-position: 100% 77%;
+  }
+
+}
+
+.text-small {
+  font-size: 44px !important;
+  font-weight: 600 !important;
+}
+
+.swiper-slide.swiper-slide-next {
+  background-color: #0BD1D1;
+}
+
+.swiper-slide {
+  background-color: #7F92B0;
+  border-radius: 15px;
+}
+
+@media screen and (min-width: 320) {
+  .swiper-slide.swiper-slide-active {
+    background-color: #0BD1D1;
+  }
+}
+
+@media screen and (min-width: 786) {
+  .swiper-slide.swiper-slide-active {
+    background-color: #0BD1D1;
+  }
+}
+
+.divider {
+  display: flex;
+  height: 1px;
+  width: 85%;
+  background: linear-gradient(90deg, rgba(224, 225, 226, 0) 0%, rgb(224, 225, 226) 49.52%, rgba(224, 225, 226, 0) 100%);
+  margin: 0 auto !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #F7FAFC;
+  box-shadow: inset 0 0 5px #e4e4e4;
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0BD1D1;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}

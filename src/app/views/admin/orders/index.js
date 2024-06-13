@@ -7,217 +7,79 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
-  Checkbox,
   Box,
   Typography,
   IconButton,
   useTheme,
 } from "@mui/material";
 import { CheckCircle, Cancel, Autorenew } from "@mui/icons-material";
-
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import Colors from "../../../assets/styles";
-
-// Sample data
+import orderServices from "../../../api/orderServices/order.index";
 
 const OrderTable = () => {
   const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("date");
+  const [orderOutput, setOrderOutput] = useState([]);
+  const [orderBy, setOrderBy] = useState("created_at");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const rows = [
-    {
-      id: "10421",
-      date: "1 Nov, 10:20 AM",
-      status: "Paid",
-      customer: "Sebastian Koga",
-      product: "Nike Sport V2",
-      revenue: 23146,
-    },
-    {
-      id: "10422",
-      date: "1 Nov, 10:53 AM",
-      status: "Paid",
-      customer: "Iryna Innda",
-      product: "Valvet T-shirt",
-      revenue: 83133,
-    },
-    {
-      id: "10423",
-      date: "1 Nov, 11:13 AM",
-      status: "Refunded",
-      customer: "Arrias Liunda",
-      product: "Nike Air Force",
-      revenue: 48476,
-    },
-    {
-      id: "10424",
-      date: "1 Nov, 12:20 PM",
-      status: "Paid",
-      customer: "Teresa Janovsky",
-      product: "Bracelet Onu-Lino",
-      revenue: 27800,
-    },
-    {
-      id: "10425",
-      date: "1 Nov, 1:40 PM",
-      status: "Canceled",
-      customer: "Laur Gilbert",
-      product: "Adidas Sweeze",
-      revenue: 7604,
-    },
-    {
-      id: "10426",
-      date: "1 Nov, 2:19 PM",
-      status: "Paid",
-      customer: "Trista Goomes",
-      product: "Backpack Niver",
-      revenue: 67160,
-    },
-    {
-      id: "10427",
-      date: "1 Nov, 3:42 AM",
-      status: "Paid",
-      customer: "Riccardo Mosedill",
-      product: "Adidas Vio",
-      revenue: 16384,
-    },
-    {
-      id: "10428",
-      date: "2 Nov, 9:32 AM",
-      status: "Paid",
-      customer: "Whitaker Govini",
-      product: "Airpods 2 Gen",
-      revenue: 66547,
-    },
-    {
-      id: "10429",
-      date: "2 Nov, 10:14 AM",
-      status: "Paid",
-      customer: "Carolee Harwood",
-      product: "Bracelet Warret",
-      revenue: 91962,
-    },
-    {
-      id: "10430",
-      date: "2 Nov, 10:14 AM",
-      status: "Refunded",
-      customer: "Stephenie Isbell",
-      product: "Water Bottle India x 3",
-      revenue: 23542,
-    },
-    {
-      id: "10431",
-      date: "1 Nov, 10:20 AM",
-      status: "Paid",
-      customer: "Sebastian Koga",
-      product: "Nike Sport V2",
-      revenue: 23146,
-    },
-    {
-      id: "10432",
-      date: "1 Nov, 10:53 AM",
-      status: "Paid",
-      customer: "Iryna Innda",
-      product: "Valvet T-shirt",
-      revenue: 83133,
-    },
-    {
-      id: "10433",
-      date: "1 Nov, 11:13 AM",
-      status: "Refunded",
-      customer: "Arrias Liunda",
-      product: "Nike Air Force",
-      revenue: 48476,
-    },
-    {
-      id: "10434",
-      date: "1 Nov, 12:20 PM",
-      status: "Paid",
-      customer: "Teresa Janovsky",
-      product: "Bracelet Onu-Lino",
-      revenue: 27800,
-    },
-    {
-      id: "10435",
-      date: "1 Nov, 1:40 PM",
-      status: "Canceled",
-      customer: "Laur Gilbert",
-      product: "Adidas Sweeze",
-      revenue: 7604,
-    },
-    {
-      id: "10436",
-      date: "1 Nov, 2:19 PM",
-      status: "Paid",
-      customer: "Trista Goomes",
-      product: "Backpack Niver",
-      revenue: 67160,
-    },
-    {
-      id: "10437",
-      date: "1 Nov, 3:42 AM",
-      status: "Paid",
-      customer: "Riccardo Mosedill",
-      product: "Adidas Vio",
-      revenue: 16384,
-    },
-    {
-      id: "10438",
-      date: "2 Nov, 9:32 AM",
-      status: "Paid",
-      customer: "Whitaker Govini",
-      product: "Airpods 2 Gen",
-      revenue: 66547,
-    },
-    {
-      id: "10439",
-      date: "2 Nov, 10:14 AM",
-      status: "Paid",
-      customer: "Carolee Harwood",
-      product: "Bracelet Warret",
-      revenue: 91962,
-    },
-    {
-      id: "10440",
-      date: "2 Nov, 10:14 AM",
-      status: "Refunded",
-      customer: "Stephenie Isbell",
-      product: "Water Bottle India x 3",
-      revenue: 23542,
-    },
-  ];
-  const [sortedRows, setSortedRows] = useState([...rows]);
+  const [sortedRows, setSortedRows] = useState([]);
 
   const tableHead = [
-    { name: "id", label: "ID" },
-    { name: "date", label: "Date" },
+    { name: "order_no", label: "Order Id" },
+    { name: "created_at", label: "Created At" },
     { name: "status", label: "Status" },
-    { name: "customer", label: "Customer" },
-    { name: "product", label: "Product" },
-    { name: "revenue", label: "Revenue" },
+    { name: "payment_status", label: "Payment Status" },
+    { name: "customer", label: "Customer Name" },
+    { name: "details", label: "Details" },
   ];
+
   useEffect(() => {
-    handleSort(orderBy, order);
+    handleGetOrders();
   }, []);
 
+  useEffect(() => {
+    handleSort(orderBy, order);
+  }, [orderOutput]);
+
+  const handleGetOrders = async () => {
+    try {
+      const { data, responseCode, message } = await orderServices.getOrders();
+      console.log(data.orders);
+      setOrderOutput(data.orders);
+    } catch (error) {
+      console.error("Error while fetching users:", error);
+    }
+  };
+
   const handleSort = (column, direction) => {
-    const isAsc = order === "asc";
-    const sorted = [...rows].sort((a, b) => {
-      if (a[column] < b[column]) {
+    const isAsc = direction === "asc";
+    const sorted = [...orderOutput].sort((a, b) => {
+      let aValue = a[column];
+      let bValue = b[column];
+
+      // Handle nested properties
+      if (column === "customer") {
+        aValue = `${a.customer.first_name} ${a.customer.last_name}`;
+        bValue = `${b.customer.first_name} ${b.customer.last_name}`;
+      } else if (column === "details") {
+        aValue = a.details.map(detail => `${detail.size} ${detail.qty} ${detail.design}`).join(", ");
+        bValue = b.details.map(detail => `${detail.size} ${detail.qty} ${detail.design}`).join(", ");
+      }
+
+      if (aValue < bValue) {
         return isAsc ? -1 : 1;
       }
-      if (a[column] > b[column]) {
+      if (aValue > bValue) {
         return isAsc ? 1 : -1;
       }
       return 0;
     });
 
+    console.log(direction);
     setSortedRows(sorted);
     setOrder(direction);
     setOrderBy(column);
@@ -239,6 +101,8 @@ const OrderTable = () => {
       case "Canceled":
         return <Cancel style={{ color: "red" }} />;
       case "Refunded":
+        return <Autorenew style={{ color: "grey" }} />;
+      case "pending":
         return <Autorenew style={{ color: "grey" }} />;
       default:
         return null;
@@ -294,23 +158,29 @@ const OrderTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
+            {console.log(sortedRows)}
             {sortedRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.date}</TableCell>
-                  <TableCell>{renderStatusIcon(row.status)}</TableCell>
+                <TableRow key={row._id}>
+                  <TableCell>{row.order_no}</TableCell>
+                  <TableCell>{row.created_at}</TableCell>
+                  <TableCell>{row.status}</TableCell>
+                  {/* <TableCell>{renderStatusIcon(row.status)}</TableCell> */}
+                  <TableCell>{row.payment_status}</TableCell>
                   <TableCell>
                     <Box
                       sx={{ display: "flex", gap: "4px", alignItems: "center" }}
                     >
-                      <Avatar>{row.customer[0]}</Avatar>
-                      {row.customer}
+                      <Avatar>{row.customer.first_name.charAt(0)}</Avatar>
+                      {`${row.customer.first_name} ${row.customer.last_name}`}
                     </Box>
                   </TableCell>
-                  <TableCell>{row.product}</TableCell>
-                  <TableCell>{`$${row.revenue.toLocaleString()}`}</TableCell>
+                  <TableCell>
+                    {row.details.map((detail, index) => (
+                      <div key={index}>{`${detail.size} - ${detail.qty} - ${detail.design}`}</div>
+                    ))}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -325,8 +195,8 @@ const OrderTable = () => {
       >
         <Typography>
           Showing {page * rowsPerPage + 1} to{" "}
-          {Math.min((page + 1) * rowsPerPage, rows.length)} of {rows.length}{" "}
-          entries
+          {Math.min((page + 1) * rowsPerPage, orderOutput.length)} of{" "}
+          {orderOutput.length} entries
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
           {page !== 0 && (
@@ -339,7 +209,7 @@ const OrderTable = () => {
             </IconButton>
           )}
           <Box sx={{ display: "flex", gap: "5px" }}>
-            {[...Array(Math.ceil(rows.length / rowsPerPage)).keys()].map(
+            {[...Array(Math.ceil(orderOutput.length / rowsPerPage)).keys()].map(
               (pageNum) => (
                 <div
                   style={{
@@ -363,11 +233,11 @@ const OrderTable = () => {
               )
             )}
           </Box>
-          {page !== Math.ceil(rows.length / rowsPerPage) - 1 && (
+          {page !== Math.ceil(orderOutput.length / rowsPerPage) - 1 && (
             <IconButton
               sx={{ border: "1px solid grey", p: 1 }}
               onClick={(e) => handleChangePage(e, page + 1)}
-              disabled={page >= Math.ceil(rows.length / rowsPerPage) - 1}
+              disabled={page >= Math.ceil(orderOutput.length / rowsPerPage) - 1}
             >
               <KeyboardArrowRight />
             </IconButton>

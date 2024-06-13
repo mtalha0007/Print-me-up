@@ -32,6 +32,7 @@ import {
   Settings,
 } from "@mui/icons-material";
 import { get } from "../../../api";
+import axios from "axios";
 
 const tableHead = [
   {
@@ -287,16 +288,16 @@ function Dashboard() {
 
   const getAll = async () => {
     try {
-      const { products } = await get("/products");
-
-      const tableHead = Object.keys(products[0]).map((key) => ({
+      const  {data}  = await axios.get("https://dummyjson.com/products")
+  console.log(data)
+      const tableHead = Object.keys(data.products[0]).map((key) => ({
         name: key,
         label: key.toUpperCase(),
         sortOrder: { column: "country", direction: "asc" },
         visible: true,
       }));
 
-      const tableBody = products.map((item) => {
+      const tableBody = data.products.map((item) => {
         let obj = {};
         tableHead.forEach((value) => {
           obj[value.name] =

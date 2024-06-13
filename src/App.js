@@ -9,8 +9,11 @@ import AdminRoutes from "./app/routes/admin";
 import "@fontsource/noto-sans";
 import Home from "./app/views/web/Home";
 import Login from "./app/views/admin/Login/index";
+import useAuth from "./app/hooks/useAuth";
+
 
 const theme = createTheme({
+  
   typography: {
     fontFamily: "Noto Sans, sans-serif",
     h1: {
@@ -50,6 +53,7 @@ const theme = createTheme({
 })
 
 function App() {
+  const { user } = useAuth();
   return (
     <Fragment>
       <ThemeProvider theme={theme}>
@@ -67,7 +71,7 @@ function App() {
                 <Route key={i} path={item.path} element={item.component} />
               ))}
             </Route> */}
-            <Route path="/" element={<DashboardLayout />}>
+            <Route element={user ? <DashboardLayout /> : <Navigate to={"/login"} />}>
               {AdminRoutes.map((item, i) => (
                 <Route key={i} path={item.path} element={item.component} />
               ))}

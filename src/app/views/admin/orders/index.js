@@ -49,12 +49,12 @@ const OrderTable = () => {
   }, [orderOutput]);
 
   const handleGetOrders = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const { data, responseCode, message } = await orderServices.getOrders();
       console.log(data.orders);
       setOrderOutput(data.orders);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.error("Error while fetching users:", error);
     }
@@ -168,10 +168,9 @@ const OrderTable = () => {
           </TableHead>
           <TableBody>
             {loading ? (
-
               <TableRow>
                 <TableCell colSpan={tableHead.length}>
-               <Loader width="40px" height="40px" />
+                  <Loader width="40px" height="40px" />
                 </TableCell>
               </TableRow>
             ) : (
@@ -193,9 +192,31 @@ const OrderTable = () => {
                         {`${row.customer.first_name} ${row.customer.last_name}`}
                       </Box>
                     </TableCell>
-                    <TableCell>{row.status}</TableCell>
-                    {/* <TableCell>{renderStatusIcon(row.status)}</TableCell> */}
-                    <TableCell>{row.payment_status}</TableCell>
+                    <TableCell>
+                      <Typography
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {renderStatusIcon(row.status)}
+                        {row.status}
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell>
+                      <Typography
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {renderStatusIcon(row.payment_status)}
+                        {row.payment_status}
+                      </Typography>
+                    </TableCell>
 
                     <TableCell>
                       <Box>{`${row.address.address_1} - ${row.address.address_2}`}</Box>

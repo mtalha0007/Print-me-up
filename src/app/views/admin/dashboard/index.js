@@ -322,40 +322,31 @@ function Dashboard() {
   }, []);
 
   return (
-    <Box>
+    <Box >
     <Grid container>
-      <Box
-        sx={{
-          backgroundImage: `url(${Images.globe3d})`,
-          height: { xs: "300px", md: "700px" },
-          width: "100%",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: { xs: "center", md: "calc(100% + 200px)" },
-        }}
-      />
+      
       <Grid
         item
         xs={12}
+        md={7.5}
         sx={{
-          position: "absolute",
-          top: { xs: "10%", md: "15%" },
-          pl: 3,
+       mt: 13,
+          pl: 2   ,
         }}
       >
         <Grid container rowGap={"18px"}>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={10}>
             <Typography
               sx={{
                 fontSize: { xs: "24px", md: "30px" },
                 fontWeight: 700,
-                pl: "26px",
+                pl:   2,
               }}
             >
               General Statistics
             </Typography>
           </Grid>
-          <Grid item xs={12} md={7.5}>
+          <Grid item xs={12} md={10}>
             <Grid container spacing={2}>
               {cardData.map((item, ind) => (
                 <Grid item xs={12} sm={12} md={6} lg={6} key={ind}>
@@ -394,7 +385,7 @@ function Dashboard() {
               ))}
             </Grid>
           </Grid>
-          <Grid item xs={12} md={7.5}>
+          <Grid item xs={12} md={10}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Box
@@ -619,6 +610,20 @@ function Dashboard() {
             </Grid>
           </Grid>
         </Grid>
+      </Grid>
+      <Grid item md={4}>
+         <Box
+        sx={{
+          display:{xs:"none",md:"flex"},
+          backgroundImage: `url(${Images.globe3d})`,
+          height: { xs: "300px", md: "700px" },
+          width: "100%",
+          mr:2,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: { xs: "center", md: "calc(100% + 200px)" },
+        }}
+      />
       </Grid>
     </Grid>
   </Box>

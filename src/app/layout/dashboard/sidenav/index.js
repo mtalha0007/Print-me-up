@@ -78,7 +78,7 @@ export default function SideNav({ status, toggleStatus }) {
           className="divider"
           sx={{ borderColor: "rgba(193, 192, 192, 12%)" }}
         />
-        <List sx={{ pl: "36px", py: 2 }}>
+        <List sx={{ px: "19px", py: 2 }}>
           {Navigation.map((item, index) => {
             const isSelected= item.path === pathname ? true : false;
             return item.name == "Hardcoded" ? (

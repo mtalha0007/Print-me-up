@@ -19,6 +19,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import Colors from "../../../assets/styles";
 import orderServices from "../../../api/orderServices/order.index";
+import Loader from "../../../components/Loader";
 
 const OrderTable = () => {
   const [order, setOrder] = useState("asc");
@@ -27,6 +28,7 @@ const OrderTable = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortedRows, setSortedRows] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const tableHead = [
     { name: "order_no", label: "Order Id" },
@@ -47,10 +49,12 @@ const OrderTable = () => {
   }, [orderOutput]);
 
   const handleGetOrders = async () => {
+    setLoading(true)
     try {
       const { data, responseCode, message } = await orderServices.getOrders();
       console.log(data.orders);
       setOrderOutput(data.orders);
+      setLoading(false)
     } catch (error) {
       console.error("Error while fetching users:", error);
     }
@@ -67,8 +71,12 @@ const OrderTable = () => {
         aValue = `${a.customer.first_name} ${a.customer.last_name}`;
         bValue = `${b.customer.first_name} ${b.customer.last_name}`;
       } else if (column === "details") {
-        aValue = a.details.map(detail => `${detail.size} ${detail.qty} ${detail.design}`).join(", ");
-        bValue = b.details.map(detail => `${detail.size} ${detail.qty} ${detail.design}`).join(", ");
+        aValue = a.details
+          .map((detail) => `${detail.size} ${detail.qty} ${detail.design}`)
+          .join(", ");
+        bValue = b.details
+          .map((detail) => `${detail.size} ${detail.qty} ${detail.design}`)
+          .join(", ");
       }
 
       if (aValue < bValue) {
@@ -159,37 +167,49 @@ const OrderTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {console.log(sortedRows)}
-            {sortedRows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => (
-                <TableRow key={row._id}>
-                  <TableCell>{row.order_no}</TableCell>
-                  <TableCell>{row.created_at}</TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{ display: "flex", gap: "4px", alignItems: "center" }}
-                    >
-                      <Avatar>{row.customer.first_name.charAt(0)}</Avatar>
-                      {`${row.customer.first_name} ${row.customer.last_name}`}
-                    </Box>
-                  </TableCell>
-                  <TableCell>{row.status}</TableCell>
-                  {/* <TableCell>{renderStatusIcon(row.status)}</TableCell> */}
-                  <TableCell>{row.payment_status}</TableCell>
-                 
-                  <TableCell>
-                   
-                      <Box >{`${row.address.address_1} - ${row.address.address_2}`}</Box>
-                    
-                  </TableCell>
-                  <TableCell>
-                    {row.details.map((detail, index) => (
-                      <Box key={index}>{`${detail.size} - ${detail.qty} - ${detail.design}`}</Box>
-                    ))}
-                  </TableCell>
-                </TableRow>
-              ))}
+            {loading ? (
+
+              <TableRow>
+                <TableCell colSpan={tableHead.length}>
+               <Loader width="40px" height="40px" />
+                </TableCell>
+              </TableRow>
+            ) : (
+              sortedRows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => (
+                  <TableRow key={row._id}>
+                    <TableCell>{row.order_no}</TableCell>
+                    <TableCell>{row.created_at}</TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "4px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Avatar>{row.customer.first_name.charAt(0)}</Avatar>
+                        {`${row.customer.first_name} ${row.customer.last_name}`}
+                      </Box>
+                    </TableCell>
+                    <TableCell>{row.status}</TableCell>
+                    {/* <TableCell>{renderStatusIcon(row.status)}</TableCell> */}
+                    <TableCell>{row.payment_status}</TableCell>
+
+                    <TableCell>
+                      <Box>{`${row.address.address_1} - ${row.address.address_2}`}</Box>
+                    </TableCell>
+                    <TableCell>
+                      {row.details.map((detail, index) => (
+                        <Box
+                          key={index}
+                        >{`${detail.size} - ${detail.qty} - ${detail.design}`}</Box>
+                      ))}
+                    </TableCell>
+                  </TableRow>
+                ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

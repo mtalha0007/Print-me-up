@@ -178,7 +178,7 @@ const UserTable = () => {
       }}
     >
       <TableContainer sx={{ mt: 12 }}>
-      <Box sx={{ m: 2, display: "flex", justifyContent: "end" }}>
+      {/* <Box sx={{ m: 2, display: "flex", justifyContent: "end" }}>
           <input
             type="text"
             placeholder="Search..."
@@ -186,7 +186,7 @@ const UserTable = () => {
             // onChange={handleSearchChange}
             style={{ padding: "8px", fontSize: "16px" }}
           />
-        </Box>
+        </Box> */}
         <Table>
           <TableHead>
             <TableRow>

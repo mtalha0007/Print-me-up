@@ -21,7 +21,7 @@ function Login() {
         mt: { md: "80px", sm: 0, xs: 0 }
       }}
     >
-      <Boxa
+      <Box
         sx={{
           position: "absolute",
           left: "-60%",

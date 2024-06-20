@@ -32,6 +32,7 @@ import { ErrorHandler } from "../../../utils/ErrorHandler";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { ErrorToaster, SuccessToaster } from "../../../components/Toaster";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import moment from "moment/moment";
 
 const OrderTable = () => {
   const [order, setOrder] = useState("asc");
@@ -81,13 +82,14 @@ const OrderTable = () => {
       console.log(data.orders);
       setOrderOutput(data.orders);
       setLoading(false);
+   
     } catch (error) {
       console.error("Error while fetching users:", error);
     }
   };
 
   const handleSort = (column, direction) => {
-    const isAsc = direction === "asc";
+    const isAsc = direction === "desc";
     const sorted = [...orderOutput].sort((a, b) => {
       let aValue = a[column];
       let bValue = b[column];
@@ -242,8 +244,9 @@ const OrderTable = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TableRow key={row._id}>
+                     
                       <TableCell>{row.order_no}</TableCell>
-                      <TableCell>{row.created_at}</TableCell>
+                      <TableCell>{moment(row.created_at).format("DD-MM-YYYY")}</TableCell>
                       <TableCell>
                         <Box
                           sx={{
@@ -299,19 +302,28 @@ const OrderTable = () => {
                       </TableCell>
                       <TableCell>
                         <img
-                          style={{ width: "100px" }}
+                         
+                        onClick={()=>{
+                          if(row.screenshot_front){
+                          const fileUrl = baseUrl + row.screenshot_front;
+                            window.open(fileUrl, '_blank');
+                          }
+                        }}
+                          style={{ width: "100px",cursor:"pointer" }}
                           src={baseUrl + row.screenshot_front}
                         />
                       </TableCell>
                         <TableCell>
-                      
-                          <InsertDriveFileIcon
-                            onClick={() => {
-                              const fileUrl = baseUrl + row.details[0].design_front;
-                              window.open(fileUrl, '_blank');
-                            }}
-                            sx={{ color: Colors.primary, cursor: "pointer" }}
-                          />
+                      {row.details[0].design_front ? (
+
+                        <InsertDriveFileIcon
+                        onClick={() => {
+                          const fileUrl = baseUrl + row.details[0].design_front;
+                          window.open(fileUrl, '_blank');
+                        }}
+                        sx={{ color: Colors.primary, cursor: "pointer" }}
+                        />
+                      ):"-"}
                         </TableCell>
                     </TableRow>
                   ))

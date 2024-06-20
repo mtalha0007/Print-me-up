@@ -2,7 +2,7 @@ export const ErrorHandler = (error) => {
   if (error?.response) {
     console.log("Error Handler Call", error?.response?.status);
     if (error?.response?.status === 401) {
-      const token = localStorage.getItem("jwt");
+      const token = localStorage.getItem("user");
       localStorage.clear();
       window.location.reload();
       if (token) {
